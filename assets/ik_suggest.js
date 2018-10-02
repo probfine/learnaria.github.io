@@ -2,6 +2,7 @@
  
 var pluginName = "ik_suggest",
 	defaults = {
+		'instructions': "As you begin typing, the application might suggest similar search terms. Use the up and down arrow keys to select the suggested search string.",
 		'minLength': 2,
 		'maxResults': 10,
 		'source': []
@@ -45,11 +46,19 @@ var pluginName = "ik_suggest",
 		this.list = $('<ul/>').addClass('suggestions');
 		
 		$elem.after(this.notify, this.list);
+
+		plugin.notify = $('<div/>')
+			.addClass('ik_readersonly')
+			.attr({
+				'role': 'region',
+				'aria-live': 'polite'
+			});
 				
 	};
 	
+
 	/** 
-	 * Handles kedown event on text field.
+	 * Handles keydown event on text field.
 	 * 
 	 * @param {object} event - Keyboard event.
 	 * @param {object} event.data - Event data.
@@ -173,10 +182,15 @@ var pluginName = "ik_suggest",
 				if ( regex.test(arr[i]) ) {
 					r.push(arr[i].replace(regex, '<span>$1</span>'));
 				}
+				if (r.length) {
+					this.notify.text('suggestions are available for this field. Use up and down arrows to select a suggestion and enter key to use it.')
+				}
 			}
 		}
 
 		return r;
+
+		
 		
 	};
 

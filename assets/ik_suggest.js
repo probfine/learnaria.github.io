@@ -2,7 +2,7 @@
  
 var pluginName = "ik_suggest",
 	defaults = {
-		'instructions': "As you begin typing, the application might suggest similar search terms. Use the up and down arrow keys to select the suggested search string.",
+		'instructions': "As you start typing the application might suggest similar search terms. Use up and down arrow keys to select a suggested search string.",
 		'minLength': 2,
 		'maxResults': 10,
 		'source': []
@@ -47,7 +47,7 @@ var pluginName = "ik_suggest",
 		
 		$elem.after(this.notify, this.list);
 
-		plugin.notify = $('<div/>')
+		this.plugin.notify = $('<div/>')
 			.addClass('ik_readersonly')
 			.attr({
 				'role': 'region',

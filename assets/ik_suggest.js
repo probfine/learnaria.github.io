@@ -47,14 +47,16 @@ var pluginName = "ik_suggest",
 		
 		this.list = $('<ul/>').addClass('suggestions');
 		
-		$elem.after(this.notify, this.list);
-
 		plugin.notify = $('<div/>')
 			.addClass('ik_readersonly')
 			.attr({
 				'role': 'region',
 				'aria-live': 'polite'
 			});
+
+		$elem.after(this.notify, this.list);
+
+		
 				
 	};
 	

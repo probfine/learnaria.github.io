@@ -30,7 +30,6 @@ var pluginName = "ik_suggest",
 	/** Initializes plugin. */
 	Plugin.prototype.init = function () {
 		
-		debugger;
 
 		var $elem, plugin;
 		

@@ -49,7 +49,7 @@ var pluginName = "ik_suggest",
 		
 		$elem.after(this.notify, this.list);
 
-		this.plugin.notify = $('<div/>')
+		plugin.notify = $('<div/>')
 			.addClass('ik_readersonly')
 			.attr({
 				'role': 'region',

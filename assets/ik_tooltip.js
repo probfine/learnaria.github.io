@@ -38,13 +38,20 @@
 				.addClass('ik_tooltip')
 				.attr({
 					'id': id,
+					'role': 'tooltip', //assign tooltip role
+					'aria-hidden': 'true', //Hide the tooltip so it isn't read twice
+					'aria-live': 'polite' //live region baby
 				});
 			
 			$elem
+				.attr ({
+					'tabindex': '0' //add tab to tooltip
+				})
 				.css('position', 'relative')
 				.removeAttr('title') // remove title to prevent it from being read
 				.after($tooltip)
-				.on('mouseover', function(event) {
+				//adding focus to mousover
+				.on('mouseover focus', function(event) {
 					
 					var y, x;
 					
@@ -62,6 +69,9 @@
 					}
 					
 					$tooltip // position and show tooltip
+						.attr ({
+							'aria-hidden': 'false'
+						})
 						.css({
 							'top': y, 
 							'left': x
@@ -73,9 +83,30 @@
 					if (!$(event.currentTarget).is(':focus') ) { // hide tooltip if current element is not focused
 						
 						$tooltip
+							.attr ({
+								'aria-hidden': 'true'
+							})
 							.removeClass('visible mouseover');					
 					}
 										
+				})
+				.on('blur', function(event){
+					if (!$tooltip.hasClass('mouseover') ) {
+						$tooltip
+							.attr({
+								'aria-hidden': 'true'
+							})
+							.removeClass('visible');
+					}
+				})
+				.on('keyup', function (event) {
+					if (event.keyCode== ik_utils.keys.esc) {
+						$tooltip
+							.attr ({
+								'aria-hidden': 'true'
+							})
+							.removeClass('visible');
+					}
 				})
 		}
 	};

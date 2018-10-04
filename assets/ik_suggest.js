@@ -54,7 +54,7 @@ var pluginName = "ik_suggest",
 				'id': 'instruction'	
 			});
 		
-		$('div').append.append("This is a test");
+		$('div').append("This is a test");
 
 		$elem.after(this.notify, this.list);
 

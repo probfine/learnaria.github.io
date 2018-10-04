@@ -51,10 +51,8 @@ var pluginName = "ik_suggest",
 			.attr({
 				'role': 'region',
 				'aria-live': 'polite',
-				'id': 'instruction'	
+				'id': 'instruction'
 			});
-		
-		
 
 		$elem.after(this.notify, this.list);
 

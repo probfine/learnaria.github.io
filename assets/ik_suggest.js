@@ -52,8 +52,9 @@ var pluginName = "ik_suggest",
 				'role': 'region',
 				'aria-live': 'polite',
 				'id': 'instruction'
+			.append("<p>This is a test</p>")	
 			});
-		$('#instruction').append("<p>This is a test</p>")	
+		
 
 		$elem.after(this.notify, this.list);
 

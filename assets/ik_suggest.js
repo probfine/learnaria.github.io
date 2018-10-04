@@ -50,7 +50,8 @@ var pluginName = "ik_suggest",
 			.addClass('ik_readersonly')
 			.attr({
 				'role': 'region',
-				'aria-live': 'polite'
+				'aria-live': 'polite',
+				'id': 'instruction'
 			});
 
 		$elem.after(this.notify, this.list);

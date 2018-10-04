@@ -51,10 +51,10 @@ var pluginName = "ik_suggest",
 			.attr({
 				'role': 'region',
 				'aria-live': 'polite',
-				'id': 'instruction'
-			.append("<p>This is a test</p>")	
+				'id': 'instruction'	
 			});
 		
+		$('div').append.append("This is a test");
 
 		$elem.after(this.notify, this.list);
 

@@ -66,6 +66,21 @@ var pluginName = "ik_suggest",
 		
 				
 	};
+	Plugin.prototype.onFocus = function (event) {
+
+		var plugin;
+
+		plugin = event.data.plugin;
+
+	};
+
+	/** 
+	 * Handles kedown event on text field.
+	 * 
+	 * @param {object} event - Keyboard event.
+	 * @param {object} event.data - Event data.
+	 * @param {object} event.data.plugin - Reference to plugin.
+	 */
 
 	/** 
 	 * Handles keydown event on text field.

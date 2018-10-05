@@ -56,7 +56,8 @@ var pluginName = "ik_suggest",
 			.attr({
 				'role': 'region',
 				'aria-live': 'polite',
-			});
+			})
+			.append.options.instructions;
 	
 
 		$elem.after(this.notify, this.list);
@@ -64,21 +65,24 @@ var pluginName = "ik_suggest",
 		
 				
 	};
-	Plugin.prototype.onFocus = function (event) {
 
-		var plugin;
 
-		plugin = event.data.plugin;
+		/** 
+		 * Handles focus event on text field.
+		 * 
+		 * @param {object} event - Keyboard event.
+		 * @param {object} event.data - Event data.
+		 * @param {object} event.data.plugin - Reference to plugin.
+		 */
+		Plugin.prototype.onFocus = function (event) {
 
-	};
+			var plugin;
 
-	/** 
-	 * Handles kedown event on text field.
-	 * 
-	 * @param {object} event - Keyboard event.
-	 * @param {object} event.data - Event data.
-	 * @param {object} event.data.plugin - Reference to plugin.
-	 */
+			plugin = event.data.plugin;
+
+			plugin.notify.text(plugin.options.instructions);
+
+		};
 
 	/** 
 	 * Handles keydown event on text field.
@@ -188,8 +192,6 @@ var pluginName = "ik_suggest",
 		var plugin = event.data.plugin;
 		
 		setTimeout(function() { plugin.list.empty().hide(); }, 200);
-
-		plugin.notify.text(plugin.options.instructions);
 		
 	};
 	

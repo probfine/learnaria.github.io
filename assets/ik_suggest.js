@@ -56,9 +56,7 @@ var pluginName = "ik_suggest",
 			.attr({
 				'role': 'region',
 				'aria-live': 'polite',
-				'id': 'instruction'
-			})
-			.append("<p>As you start typing the application might suggest similar search terms. Use up and down arrow keys to select a suggested search string.</p>");
+			});
 	
 
 		$elem.after(this.notify, this.list);
@@ -190,6 +188,8 @@ var pluginName = "ik_suggest",
 		var plugin = event.data.plugin;
 		
 		setTimeout(function() { plugin.list.empty().hide(); }, 200);
+
+		plugin.notify.text(plugin.options.instructions);
 		
 	};
 	

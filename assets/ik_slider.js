@@ -36,14 +36,26 @@
 	
 	/** Initializes plugin. */
 	Plugin.prototype.init = function () {
+
 		
 		var id, plugin;
 		
+		plugin.notify = $('<div/>') // add instructions for screen reader users
+		.attr({
+			'id': id + '_instructions',
+			'role': 'alert',
+			'aria-live': 'assertive'
+			})
+		.text(this.options.instructions)
+		.addClass('ik_readersonly')
+		.prependTo(this.element);
+		
+
 		plugin = this;
 		id = 'slider' + $('.ik_slider').length; // generate unique id
 		
 		plugin.textfield = plugin.element;
-		
+
 		if( !plugin.textfield.is(':text') ) {
 			
 			throw( plugin._name + ' plugin must be used only with text input elements.');
@@ -81,23 +93,14 @@
                     'aria-describedby': id + '_instructions' // add description */
 				})
 				.addClass('ik_knob')
+				.onFocus(event, this, 'slider0_instructions')
 				.on('keydown', {'plugin': plugin}, plugin.onKeyDown)
 				.on('mousedown', {'plugin': plugin}, plugin.onMouseDown)
 				.on('mousemove', {'plugin': plugin}, plugin.onMouseMove)
 				.on('mouseup', {'plugin': plugin}, plugin.onMouseUp)
 				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });
-				
-				$('<div/>') // add instructions for screen reader users
-				.attr({
-					'id': id + '_instructions',
-					'role': 'alert',
-					'aria-live': 'assertive'
-					})
-				.text(this.options.instructions)
-				.addClass('ik_readersonly')
-				.appendTo(this.element);
 
-				$('<div/>') // add slider track
+				plugin.slider = $('<div/>') // add slider track
 					.addClass('ik_track')
 					.append(this.fill, this.knob)
 					.prependTo(this.element);

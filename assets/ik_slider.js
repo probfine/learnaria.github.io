@@ -1,12 +1,14 @@
 ;(function ( $, window, document, undefined ) {
+
+	
 	
 	var pluginName = 'ik_slider',
 		defaults = {
 			'instructions': 'Use the left and right arrow keys to increase or decrease the slider value.',
-			'minValue': 0,
-			'maxValue': 100,
-			'nowValue': 0,
-			'step': 1
+			'minValue': 20,
+			'maxValue': 80,
+			'nowValue': 20,
+			'step': 12
 		};
 	 
 	/**
@@ -54,6 +56,8 @@
 				})
 				.addClass('ik_value')
 				.wrap('<div></div>'); // wrap initial element in a div
+
+		
 			
 			plugin.element = plugin.textfield.parent('div').addClass('ik_slider')
 				.on('mousedown', function(event){ event.preventDefault(); })
@@ -69,7 +73,7 @@
                     'role': 'slider', // assign role slider
                     'aria-valuemin': plugin.options.minValue, // set slider minimum value
                     'aria-valuemax': plugin.options.maxValue, // set slider maximum value
-                    'aria-valuenow': plugin.options.minValue, // set slider current value
+                    'aria-valuenow': plugin.options.nowValue, // set slider current value
                     'aria-describedby': id + '_instructions' // add description */
 				})
 				.addClass('ik_knob')
@@ -84,13 +88,14 @@
 				.append(this.fill, this.knob)
 				.prependTo(this.element);
 			
-				$('<div/>') // add instructions for screen reader users
-				.attr({
-				'id': id + '_instructions'
-				})
-				.text(this.options.instructions)
-				.addClass('ik_readersonly')
-				.appendTo(this.element);
+			$('<div/>') // add instructions for screen reader users
+			.attr({
+				'id': id + '_instructions',
+				'aria-live': 'assertive'
+			})
+			.text(this.options.instructions)
+			.addClass('ik_readersonly')
+			.appendTo(this.element);
 
 			this.setValue(plugin.options.minValue); // update current value
 		
@@ -107,6 +112,10 @@
 		
 		this.textfield.val(n);
 		this.options.nowValue = n;
+		this.knob
+			.attr ({
+				'aria-valuenow': n
+			})
 		this.updateDisplay(n); // update display
 	};
 	
@@ -218,13 +227,7 @@
 		
 	}
 
-	/**
-* Keyboard event handler.
-*
-* @param {object} event - Keyboard event.
-* @param {object} event.data - Event data.
-* @param {object} event.data.plugin - Reference to plugin.
-*/
+
 /**
 * Keyboard event handler.
 *
@@ -232,6 +235,7 @@
 * @param {object} event.data - Event data.
 * @param {object} event.data.plugin - Reference to plugin.
 */
+
 Plugin.prototype.onKeyDown = function (event) {
    
     var $elem, plugin, value;

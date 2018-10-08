@@ -271,13 +271,27 @@ Plugin.prototype.onKeyDown = function (event) {
             value = parseInt($elem.attr('aria-valuenow')) + plugin.options.step;
             value = value < plugin.options.maxValue ? value : plugin.options.maxValue;     
             plugin.setValue(value);
-            break;
+			break;
+			
+		case ik_utils.keys.up:
+		
+			value = parseInt($elem.attr('aria-valuenow')) + plugin.options.step;
+			value = value < plugin.options.maxValue ? value : plugin.options.maxValue;     
+			plugin.setValue(value);
+			break;
            
         case ik_utils.keys.end:
             plugin.setValue(plugin.options.maxValue);
             break;
        
         case ik_utils.keys.left:
+           
+            value = parseInt($elem.attr('aria-valuenow')) - plugin.options.step;
+            value = value > plugin.options.minValue ? value : plugin.options.minValue
+            plugin.setValue(value);
+			break;
+			
+		case ik_utils.keys.down:
            
             value = parseInt($elem.attr('aria-valuenow')) - plugin.options.step;
             value = value > plugin.options.minValue ? value : plugin.options.minValue

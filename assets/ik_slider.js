@@ -40,22 +40,17 @@
 		
 		var id, plugin;
 		
-		plugin.notify = $('<div/>') // add instructions for screen reader users
-		.attr({
-			'id': id + '_instructions',
-			'role': 'alert',
-			'aria-live': 'assertive'
-			})
-		.text(this.options.instructions)
-		.addClass('ik_readersonly')
-		.prependTo(this.element);
-		
-
 		plugin = this;
 		id = 'slider' + $('.ik_slider').length; // generate unique id
 		
 		plugin.textfield = plugin.element;
 
+
+		
+		$('#country').focusin(function () {
+			$(plugin.notify).text(defaults.instructions);
+		});
+		
 		if( !plugin.textfield.is(':text') ) {
 			
 			throw( plugin._name + ' plugin must be used only with text input elements.');
@@ -71,7 +66,16 @@
 				.addClass('ik_value')
 				.wrap('<div></div>'); // wrap initial element in a div
 
-		
+			plugin.notfiy = $('<div/>') // add instructions for screen reader users
+				.attr({
+				'id': id + '_instructions',
+				'role': 'alert',
+				'aria-live': 'polite',
+				'aria-hidden': 'true'
+				})
+				.text(this.options.instructions)
+				.addClass('ik_readersonly')
+				.appendTo(this.element);
 			
 			plugin.element = plugin.textfield.parent('div').addClass('ik_slider')
 				.on('mousedown', function(event){ event.preventDefault(); })
@@ -90,16 +94,23 @@
                     'aria-valuemin': plugin.options.minValue, // set slider minimum value
                     'aria-valuemax': plugin.options.maxValue, // set slider maximum value
                     'aria-valuenow': plugin.options.nowValue, // set slider current value
-                    'aria-describedby': id + '_instructions' // add description */
+                    'aria-labelledby': id + '_instructions' // add description */
 				})
 				.addClass('ik_knob')
-				.onFocus(event, this, 'slider0_instructions')
 				.on('keydown', {'plugin': plugin}, plugin.onKeyDown)
 				.on('mousedown', {'plugin': plugin}, plugin.onMouseDown)
 				.on('mousemove', {'plugin': plugin}, plugin.onMouseMove)
 				.on('mouseup', {'plugin': plugin}, plugin.onMouseUp)
 				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });
+			
 
+			// set default instructions
+			// TODO:  create seperate onFocusIn function
+			$('#slider0').focus(function () {
+				$(plugin.notify).text(defaults.instructions);
+			});
+
+				
 				plugin.slider = $('<div/>') // add slider track
 					.addClass('ik_track')
 					.append(this.fill, this.knob)

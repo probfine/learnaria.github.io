@@ -32,6 +32,8 @@
 	
 	}
 	
+
+	
 	/** Initializes plugin. */
 	Plugin.prototype.init = function () {
 		
@@ -65,6 +67,8 @@
 			
 			plugin.fill = $('<div/>')
 				.addClass('ik_fill');
+
+				
 			
 			plugin.knob = $('<div/>')
 				.attr({
@@ -83,19 +87,22 @@
 				.on('mouseup', {'plugin': plugin}, plugin.onMouseUp)
 				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });
 				
-			$('<div/>') // add slider track
-				.addClass('ik_track')
-				.append(this.fill, this.knob)
-				.prependTo(this.element);
+				$('<div/>') // add instructions for screen reader users
+				.attr({
+					'id': id + '_instructions',
+					'role': 'alert',
+					'aria-live': 'assertive'
+					})
+				.text(this.options.instructions)
+				.addClass('ik_readersonly')
+				.appendTo(this.element);
+
+				$('<div/>') // add slider track
+					.addClass('ik_track')
+					.append(this.fill, this.knob)
+					.prependTo(this.element);
 			
-			$('<div/>') // add instructions for screen reader users
-			.attr({
-				'id': id + '_instructions',
-				'aria-live': 'assertive'
-			})
-			.text(this.options.instructions)
-			.addClass('ik_readersonly')
-			.appendTo(this.element);
+			
 
 			this.setValue(plugin.options.minValue); // update current value
 		

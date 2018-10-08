@@ -4,7 +4,7 @@
 	
 	var pluginName = 'ik_slider',
 		defaults = {
-			'instructions': 'Use the left and right arrow keys to increase or decrease the slider value.',
+			'instructions': 'Use the left and right arrow keys, or up and down arrow keys to increase or decrease the slider value. Home brings you to the minimum value, while end brings you to the max value.',
 			'minValue': 20,
 			'maxValue': 80,
 			'nowValue': 20,

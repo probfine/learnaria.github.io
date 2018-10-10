@@ -74,6 +74,70 @@
 		
 	};
 
+	/** 
+	 * Toggles accordion panel.
+	 *
+	 * @param {Object} event - Keyboard or mouse event.
+	 * @param {object} event.data - Event data.
+	 * @param {object} event.data.plugin - Reference to plugin.
+	 */
+	Plugin.prototype.togglePanel = function (event) {
+		
+		var plugin, $elem, $panel, $me, isVisible;
+		
+		plugin = event.data.plugin;
+		$elem = $(plugin.element);
+		$me = $(event.target);
+		$panel = $me.parent('dt').next();
+
+		if($me.attr('aria-expanded') == 'false'){
+			$me.attr('aria-expanded', 'true');
+		} else {
+			$me.attr('aria-expanded' , 'false');
+		};
+
+		if(plugin.options.autoCollapse) { // expand current panel and collapse the rest
+			
+			plugin.headers.each(function(i, el) {
+				var $hdr, $btn; 
+				
+				$hdr = $(el);
+				$btn = $hdr.find('.button');
+				
+
+				
+				if($btn[0] != $(event.currentTarget)[0] || $btn.hasClass('expanded')) { 
+					$btn.removeClass('expanded');
+					$hdr.next().slideUp(plugin.options.animationSpeed);
+					
+				} else { 
+					$btn.addClass('expanded');
+					$hdr.next().slideDown(plugin.options.animationSpeed);
+				}
+			});
+			
+		} else { // toggle current panel depending on the state
+		
+			isVisible = !!$panel.is(':visible');
+			$panel.slideToggle({ duration: plugin.options.animationSpeed });
+			
+		}
+
+	};
+	
+	$.fn[pluginName] = function ( options ) {
+		
+		return this.each(function () {
+			
+			if ( !$.data(this, pluginName )) {
+				$.data( this, pluginName,
+				new Plugin( this, options ));
+			}
+			
+		});
+		
+	}
+
 	/**
      * Handles keydown event on header button.
      *
@@ -117,70 +181,6 @@
                 }
                 break;
         }
-    };
-
-
-	/** 
-	 * Toggles accordion panel.
-	 *
-	 * @param {Object} event - Keyboard or mouse event.
-	 * @param {object} event.data - Event data.
-	 * @param {object} event.data.plugin - Reference to plugin.
-	 */
-	Plugin.prototype.togglePanel = function (event) {
-		
-		var plugin, $elem, $panel, $me, isVisible;
-		
-		plugin = event.data.plugin;
-		$elem = $(plugin.element);
-		$me = $(event.target);
-		$panel = $me.parent('dt').next();
-
-		if($me.attr('aria-expanded') == 'false'){
-			$me.attr('aria-expanded', 'true');
-		} else {
-			$me.attr('aria-expanded' , 'false');
-		};
-
-		if(plugin.options.autoCollapse) { // expand current panel and collapse the rest
-			
-			plugin.headers.each(function(i, el) {
-				var $hdr, $btn; 
-				
-				$hdr = $(el);
-				$btn = $hdr.find('.button');
-				
-
-				
-				if($btn[0] != $(event.currentTarget)[0]) { 
-					$btn.removeClass('expanded');
-					$hdr.next().slideUp(plugin.options.animationSpeed);
-				} else { 
-					$btn.addClass('expanded');
-					$hdr.next().slideDown(plugin.options.animationSpeed);
-				}
-			});
-			
-		} else { // toggle current panel depending on the state
-		
-			isVisible = !!$panel.is(':visible');
-			$panel.slideToggle({ duration: plugin.options.animationSpeed });
-			
-		}
-
 	};
 	
-	$.fn[pluginName] = function ( options ) {
-		
-		return this.each(function () {
-			
-			if ( !$.data(this, pluginName )) {
-				$.data( this, pluginName,
-				new Plugin( this, options ));
-			}
-			
-		});
-		
-	}
-
 })( jQuery, window, document );

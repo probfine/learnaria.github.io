@@ -39,11 +39,7 @@
 			'aria-multiselectable': !this.options.autoCollapse // define if more than one panel can be expanded,
 		}).addClass('ik_accordion');
 		
-		
-
-		this.headers = $elem.children('dt')
-        .attr({'role': 'heading'}); // set heading role for each accordion header
-
+	
 		this.headers = $elem.children('dt').each(function(i, el) {
 			var $me, $btn;
 			
@@ -56,7 +52,6 @@
                 'aria-controls': id + '_panel_' + i, // associate button with corresponding panel
                 'aria-expanded': 'false', // toggle expanded state
 				'tabindex': '0', //add keyboard focus
-				'role': 'heading',
 				})
 			.addClass('button')
 			.html($me.html())
@@ -64,6 +59,9 @@
 			.on('click', {'plugin': plugin}, plugin.togglePanel)
 			$me.empty().append($btn); // wrap content of each header in an element with role button
 			});
+
+			this.headers = $elem.children('dt')
+        		.attr({'role': 'heading'}); // set heading role for each accordion header
 		
 		this.panels = $elem.children('dd').each(function(i, el) {
 			var $me = $(this), id = $elem.attr('id') + '_panel_' + i;

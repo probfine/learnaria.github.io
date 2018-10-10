@@ -3,7 +3,7 @@
 	var pluginName = 'ik_accordion',
 		defaults = { // set default parameters
 			autoCollapse: false,
-			animationSpeed: 200
+			animationSpeed: 200,
 		};
 	 
 	/**
@@ -33,12 +33,13 @@
 		plugin = this;
 		
 		
-		$elem.attr({
+		$('dl').attr({
 			'id': id,
 			'role': 'region', // add the accordion to the landmarked regions
+			'aria-multiselectable': !this.options.autoCollapse // define if more than one panel can be expanded,
 		}).addClass('ik_accordion');
 		
-		$elem.attr({'aria-multiselectable': !this.options.autoCollapse}); // define if more than one panel can be expanded
+		
 
 		this.headers = $elem.children('dt')
         .attr({'role': 'heading'}); // set heading role for each accordion header
@@ -53,14 +54,14 @@
 				'id': id + '_btn_' + i,
 				'role': 'button',
                 'aria-controls': id + '_panel_' + i, // associate button with corresponding panel
-                'aria-expanded': false, // toggle expanded state
-				'tabindex': 0, //add keyboard focus
-				'role': 'heading'
+                'aria-expanded': 'false', // toggle expanded state
+				'tabindex': '0', //add keyboard focus
+				'role': 'heading',
 				})
 			.addClass('button')
 			.html($me.html())
 			.on('keydown', {'plugin': plugin}, plugin.onKeyDown) // enable keyboard navigation
-			.on('click', {'plugin': plugin}, plugin.togglePanel);
+			.on('click', {'plugin': plugin}, plugin.togglePanel)
 			$me.empty().append($btn); // wrap content of each header in an element with role button
 			});
 		
@@ -69,15 +70,14 @@
 			$me.attr({
 				'id': id,
 				'role': 'region', // add role region to each panel
-                'aria-hidden': false, // mark all panels as hidden
-                'tabindex': 0 // add panels into the tab order
+                'tabindex': '0' // add panels into the tab order
 			});
 		}).hide();
 		
 	};
-	
+
 	/**
-     * Handles kedown event on header button.
+     * Handles keydown event on header button.
      *
      * @param {Object} event - Keyboard event.
      * @param {object} event.data - Event data.
@@ -99,7 +99,7 @@
             case ik_utils.keys.space:
                 event.preventDefault();
                 event.stopPropagation();
-                plugin.togglePanel(event);
+				plugin.togglePanel(event);
                 break;
            
             // use up arrow to jump to the previous header
@@ -121,7 +121,7 @@
         }
     };
 
-	
+
 	/** 
 	 * Toggles accordion panel.
 	 *
@@ -137,7 +137,13 @@
 		$elem = $(plugin.element);
 		$me = $(event.target);
 		$panel = $me.parent('dt').next();
-		
+
+		if($me.attr('aria-expanded') == 'false'){
+			$me.attr('aria-expanded', 'true');
+		} else {
+			$me.attr('aria-expanded' , 'false');
+		};
+
 		if(plugin.options.autoCollapse) { // expand current panel and collapse the rest
 			
 			plugin.headers.each(function(i, el) {
@@ -145,6 +151,8 @@
 				
 				$hdr = $(el);
 				$btn = $hdr.find('.button');
+				
+
 				
 				if($btn[0] != $(event.currentTarget)[0]) { 
 					$btn.removeClass('expanded');
@@ -161,6 +169,7 @@
 			$panel.slideToggle({ duration: plugin.options.animationSpeed });
 			
 		}
+
 	};
 	
 	$.fn[pluginName] = function ( options ) {
@@ -175,5 +184,5 @@
 		});
 		
 	}
- 
+
 })( jQuery, window, document );

@@ -49,7 +49,7 @@
 					'id': id + '_panel' + i,  // add unique id for a panel	
 					'role': 'tabpanel', // add tabpanel role
 					'aria-hidden': 'true', // hides from screenreaders
-					'tabindex': '0' // can be found using tab
+					'tabindex': 0 // can be found using tab
 				})
 				
 				.addClass('ik_tabpanel')
@@ -111,11 +111,13 @@
 			.addClass('selected')
 			.attr({
 				'aria-selected': 'true',
-				'tabindex': '0'
-			});
+				'tabindex': 0
+			})
+			.focus();
 		
-		if (event.type) $($tabs[ind]).focus(); // move focus to current tab if reached by mouse or keyboard
-		
+		if (event.type) {
+			$($tabs[ind]).focus(); // move focus to current tab if reached by mouse or keyboard
+		}
 		$panels // hide all panels
 			.attr({
 				'aria-hidden': 'true'
